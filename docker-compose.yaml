@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000" 
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/mydatabase
+      - PORT=8000
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" 
+
+  mongo:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    

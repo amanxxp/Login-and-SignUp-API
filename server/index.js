@@ -1,16 +1,17 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import bcrypt from "bcryptjs";
 import User from "./models/userModel.js";
 
 const app = express();
-const PORT = 5000;
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 mongoose
-  .connect("mongodb://localhost:27017/users")
+  .connect(process.env.MONGO_URL)
   .then(() => {
     console.log("connected to mongodb");
   })
@@ -78,6 +79,7 @@ app.post("/api/users/login", async (req, res) => {
   }
 });
 
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`server running on ${PORT}`);
 });
